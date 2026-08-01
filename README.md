@@ -1,4 +1,4 @@
-# Job Gator 🐊
+# MyJobGator 🐊
 
 A full-stack job portal connecting job seekers with recruiters. Built with Node.js, Express, MongoDB, and vanilla HTML/CSS/Bootstrap — no frontend framework required.
 
