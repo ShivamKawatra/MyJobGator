@@ -204,10 +204,119 @@
   </div>
 
   <script src="js/bootstrap.bundle.js"></script>
-  <script src="js/job-database.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/session-manager.js"></script>
-  <script src="js/job-search.js"></script>
-  <script src="js/job-details.js"></script>
+  <script>
+    const jobId = new URLSearchParams(window.location.search).get('id');
+
+    async function loadJobDetails() {
+      const mainCol = document.querySelector('.col-lg-8');
+      const sideCol = document.querySelector('.col-lg-4');
+      if (!jobId) {
+        mainCol.innerHTML = '<div class="alert alert-danger">No job ID specified.</div>';
+        return;
+      }
+      try {
+        const res = await fetch(`/api/jobs/${jobId}`);
+        if (!res.ok) throw new Error('Job not found');
+        const j = await res.json();
+
+        document.title = `${j.title} — My Job Gator`;
+
+        mainCol.innerHTML = `
+          <div class="card shadow mb-4">
+            <div class="card-body p-4">
+              <div class="d-flex align-items-center mb-4">
+                <img src="${j.logo || 'images/jobicon.png'}" class="me-3 border" alt="Logo" style="width:80px;height:80px;object-fit:contain;">
+                <div class="flex-grow-1">
+                  <h2 class="mb-1">${j.title}</h2>
+                  <h5 class="text-muted mb-2">${j.company}</h5>
+                  <div class="d-flex flex-wrap gap-2">
+                    ${j.type ? `<span class="badge bg-primary">${j.type}</span>` : ''}
+                    ${j.workMode ? `<span class="badge bg-success">${j.workMode}</span>` : ''}
+                    ${j.experience ? `<span class="badge bg-info">${j.experience}</span>` : ''}
+                  </div>
+                </div>
+                <div class="text-end">
+                  <button class="btn btn-outline-danger mb-2" onclick="saveJob()">
+                    <i class="fa-regular fa-heart"></i> Save Job
+                  </button><br>
+                  <small class="text-muted">${j.createdAt ? 'Posted ' + new Date(j.createdAt).toLocaleDateString() : ''}</small>
+                </div>
+              </div>
+
+              <div class="row mb-4">
+                <div class="col-md-3 mb-2"><strong>Salary:</strong><br><span class="text-success">${j.salary || 'N/A'}</span></div>
+                <div class="col-md-3 mb-2"><strong>Location:</strong><br>${j.location || 'N/A'}</div>
+                <div class="col-md-3 mb-2"><strong>Experience:</strong><br>${j.experience || 'N/A'}</div>
+                <div class="col-md-3 mb-2"><strong>Last Date:</strong><br>${j.lastDate ? new Date(j.lastDate).toLocaleDateString() : 'Open'}</div>
+              </div>
+
+              <div class="mb-4">
+                <h4 style="color:#F03737;">Job Description</h4>
+                <p>${j.description || ''}</p>
+                ${j.responsibilities ? `<h5>Key Responsibilities:</h5><p>${j.responsibilities}</p>` : ''}
+                ${j.requirements ? `<h5>Requirements:</h5><p>${j.requirements}</p>` : ''}
+                ${j.skills?.length ? `
+                  <h5>Required Skills:</h5>
+                  <div class="d-flex flex-wrap gap-2 mb-3">
+                    ${j.skills.map(s => `<span class="badge bg-light text-dark border">${s}</span>`).join('')}
+                  </div>` : ''}
+              </div>
+
+              <div class="text-center">
+                <button class="btn text-light px-5 py-3" style="background-color:#F03737;" onclick="applyForJob()">
+                  <i class="fa-solid fa-paper-plane"></i> Apply Now
+                </button>
+              </div>
+            </div>
+          </div>`;
+
+        sideCol.innerHTML = `
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <h5 style="color:#F03737;">About ${j.company}</h5>
+              <p>${j.recruiter?.companyDescription || 'A great company to work for.'}</p>
+              <div class="mb-3">
+                <strong>Location:</strong> ${j.location || 'N/A'}<br>
+                ${j.recruiter?.website ? `<strong>Website:</strong> <a href="${j.recruiter.website}" style="color:#F03737;" target="_blank">${j.recruiter.website}</a>` : ''}
+              </div>
+            </div>
+          </div>
+          <div class="card shadow">
+            <div class="card-body">
+              <h5 style="color:#F03737;">Quick Info</h5>
+              <ul class="list-unstyled mb-0">
+                <li class="mb-2"><i class="fa-solid fa-briefcase me-2 text-muted"></i>${j.type || 'N/A'}</li>
+                <li class="mb-2"><i class="fa-solid fa-location-dot me-2 text-muted"></i>${j.location || 'N/A'}</li>
+                <li class="mb-2"><i class="fa-solid fa-money-bill me-2 text-muted"></i>${j.salary || 'N/A'}</li>
+                <li class="mb-2"><i class="fa-solid fa-users me-2 text-muted"></i>Vacancies: ${j.vacancies || 1}</li>
+              </ul>
+              <a href="job.html" class="btn btn-outline-secondary w-100 mt-3">View All Jobs</a>
+            </div>
+          </div>`;
+
+      } catch (e) {
+        document.querySelector('.container').innerHTML = `<div class="alert alert-danger mt-4">${e.message}</div>`;
+      }
+    }
+
+    async function saveJob() {
+      if (!authManager.isLoggedIn()) { showNotification('Please login to save jobs', 'warning'); return; }
+      try {
+        await authManager.saveJob(jobId);
+        showNotification('Job saved!', 'success');
+      } catch (e) { showNotification(e.message, 'error'); }
+    }
+
+    async function applyForJob() {
+      if (!authManager.isLoggedIn()) { showNotification('Please login to apply', 'warning'); return; }
+      try {
+        await authManager.applyForJob(jobId, {});
+        showNotification('Application submitted successfully!', 'success');
+      } catch (e) { showNotification(e.message, 'error'); }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadJobDetails);
+  </script>
 </body>
 </html>

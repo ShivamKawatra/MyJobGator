@@ -3,62 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Cv Creator | Login</title>
+  <title>My Job Gator | Login</title>
   <link rel="stylesheet" href="css/bootstrap.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="shortcut icon" href="images/icon.jpg" type="image/x-icon" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body style="background-color: #5D61BF;">
-  <!-- login form start -->
-  <header class="min-vh-100 d-flex align-items-center justify-content-center">
-    <div class="container shadow rounded bg-white" id="login" style="max-width: 900px;">
-      <div class="row g-0 align-items-stretch flex-column flex-md-row">
-        <!-- Left side: form -->
-        <div class="col-12 col-md-6 p-4 d-flex align-items-center">
-          <form action="" class="form-control border-0 shadow-none p-4 w-100">
-            <p class="fs-3 text-center mb-4" style="color: #5D61BF;">Login</p>
-            <input type="email" placeholder="Email" class="form-control border-0 shadow p-3 mb-3" />
-            <input type="password" placeholder="Password" class="form-control border-0 shadow p-3 mb-3" />
-            <button type="submit" class="btn form-control text-light p-3" style="background-color: #5D61BF;">Login</button>
+<body style="background-color:#5D61BF;">
+  <div class="container min-vh-100 d-flex align-items-center justify-content-center py-4">
+    <div class="shadow rounded bg-white w-100" style="max-width:900px;">
+      <div class="row g-0 align-items-stretch">
+
+        <!-- Left: Form -->
+        <div class="col-12 col-md-6 p-4 d-flex flex-column justify-content-center">
+
+          <!-- Role Tabs -->
+          <ul class="nav nav-pills mb-4 justify-content-center" id="loginTabs">
+            <li class="nav-item">
+              <button class="nav-link active px-4" id="seekerLoginTab" onclick="switchLoginRole('seeker')">
+                <i class="fa-solid fa-user me-1"></i> Job Seeker
+              </button>
+            </li>
+            <li class="nav-item ms-2">
+              <button class="nav-link px-4" id="recruiterLoginTab" onclick="switchLoginRole('recruiter')">
+                <i class="fa-solid fa-building me-1"></i> Recruiter
+              </button>
+            </li>
+          </ul>
+
+          <p class="fs-4 text-center fw-semibold mb-3" style="color:#5D61BF;" id="loginTitle">Job Seeker Login</p>
+
+          <form id="loginForm" class="px-2">
+            <div class="mb-3">
+              <input type="email" id="email" placeholder="Email" class="form-control border-0 shadow p-3" required />
+            </div>
+
+            <div class="mb-3 position-relative">
+              <input type="password" id="password" placeholder="Password" class="form-control border-0 shadow p-3 pe-5" required />
+              <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor:pointer;" onclick="togglePwd()">
+                <i class="fa-regular fa-eye" id="eyeIcon"></i>
+              </span>
+            </div>
+
+            <input type="hidden" id="roleInput" value="seeker" />
+
+            <button type="submit" class="btn text-light w-100 p-3" style="background-color:#5D61BF;">Login</button>
+
             <p class="text-center mt-3 mb-1">
-              <a href="#" class="text-decoration-none" style="color: #5D61BF;">Forget Password?</a>
+              <a href="#" class="text-decoration-none" style="color:#5D61BF;">Forgot Password?</a>
             </p>
             <p class="text-center mb-0">
               Don't have an account?
-              <a href="register.html" class="text-decoration-none" style="color: #5D61BF;">Sign Up</a>
+              <a href="register.html" class="text-decoration-none" style="color:#5D61BF;">Sign Up</a>
             </p>
           </form>
         </div>
 
-        <!-- Right side: logo + info -->
-        <div class="col-12 col-md-6 text-center text-light p-5 d-flex flex-column justify-content-center"
-             style="background-color: #5D61BF;">
-          <img src="images/logo-white.png" class="img-fluid mb-4 mx-auto" alt="logo" style="max-width: 180px;" />
-          <p class="px-2 px-md-3">
-            Make a CV to define yourself the right way. Meet thousands of job announcements and employers by the help of your profile with a private extension, which you can share across all social media platforms.
-          </p>
-          <a href="register.html"
-             class="btn text-light px-4 mt-3 mx-auto"
-             style="background-color: rgba(255,255,255,0.2); border: 1px solid #fff;">
-             Register
-          </a>
+        <!-- Right: Info -->
+        <div class="col-12 col-md-6 text-center text-light p-5 d-flex flex-column justify-content-center rounded-end" style="background-color:#5D61BF;">
+          <img src="images/logo-white.png" class="img-fluid mb-4 mx-auto" alt="logo" style="max-width:180px;" />
+          <p class="px-3">Welcome back! Login to access your dashboard, manage applications, and discover new opportunities.</p>
+          <a href="register.html" class="btn text-light px-4 mt-3 mx-auto" style="background-color:rgba(255,255,255,0.2);border:1px solid #fff;">Register</a>
         </div>
+
       </div>
     </div>
-  </header>
-  <!-- login form end -->
+  </div>
 
   <script src="js/bootstrap.bundle.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/session-manager.js"></script>
-  <script src="js/validation.js"></script>
+  <script>
+    function switchLoginRole(role) {
+      document.getElementById('roleInput').value = role;
+      const isRecruiter = role === 'recruiter';
+      document.getElementById('loginTitle').textContent = isRecruiter ? 'Recruiter Login' : 'Job Seeker Login';
+      document.getElementById('seekerLoginTab').classList.toggle('active', !isRecruiter);
+      document.getElementById('recruiterLoginTab').classList.toggle('active', isRecruiter);
+    }
+
+    function togglePwd() {
+      const input = document.getElementById('password');
+      const icon  = document.getElementById('eyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const role     = document.getElementById('roleInput').value;
+
+      if (!email || !password) return showNotification('Please fill in all fields', 'error');
+
+      try {
+        const user = await authManager.login(email, password);
+        // Verify the user logged in with the correct role tab
+        if (user.role !== role) {
+          await authManager.logout();
+          return showNotification(`This account is not a ${role} account. Please select the correct tab.`, 'error');
+        }
+        showNotification('Login successful!', 'success');
+        const returnUrl = new URLSearchParams(window.location.search).get('returnUrl');
+        setTimeout(() => window.location.href = returnUrl || 'dashboard.html', 1500);
+      } catch (err) {
+        showNotification(err.message, 'error');
+      }
+    });
+  </script>
 </body>
 </html>

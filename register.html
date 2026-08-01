@@ -3,80 +3,137 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Cv Creator | Register</title>
+  <title>My Job Gator | Register</title>
   <link rel="stylesheet" href="css/bootstrap.css" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="shortcut icon" href="images/icon.jpg" type="image/x-icon" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body style="background-color: #5D61BF;">
+<body style="background-color:#5D61BF;">
   <div class="container min-vh-100 d-flex align-items-center justify-content-center py-4">
-    <div class="shadow rounded bg-white w-100">
-      <div class="row g-0 align-items-center">
-        <!-- Left side: Form -->
-        <div class="col-12 col-md-6 p-4">
-          <form action="" class="form-control border-0 shadow-none p-4">
-            <p class="fs-3 text-center" style="color: #5D61BF;">Register</p>
-            <input
-              type="text"
-              placeholder="Full Name"
-              class="form-control border-0 shadow p-3 mb-3"
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              class="form-control border-0 shadow p-3 mb-3"
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              class="form-control border-0 shadow p-3 mb-3"
-            />
-            <input
-              type="password"
-              placeholder="Confirm Password"
-              class="form-control border-0 shadow p-3 mb-3"
-            />
-            <button
-              type="submit"
-              class="btn text-light form-control p-3"
-              style="background-color: #5D61BF;"
-              >Register</button
-            >
+    <div class="shadow rounded bg-white w-100" style="max-width:900px;">
+      <div class="row g-0 align-items-stretch">
+
+        <!-- Left: Form -->
+        <div class="col-12 col-md-6 p-4 d-flex flex-column justify-content-center">
+
+          <!-- Role Tabs -->
+          <ul class="nav nav-pills mb-4 justify-content-center" id="registerTabs">
+            <li class="nav-item">
+              <button class="nav-link active px-4" id="seekerTab" onclick="switchRole('seeker')">
+                <i class="fa-solid fa-user me-1"></i> Job Seeker
+              </button>
+            </li>
+            <li class="nav-item ms-2">
+              <button class="nav-link px-4" id="recruiterTab" onclick="switchRole('recruiter')">
+                <i class="fa-solid fa-building me-1"></i> Recruiter
+              </button>
+            </li>
+          </ul>
+
+          <p class="fs-4 text-center fw-semibold mb-3" style="color:#5D61BF;" id="formTitle">Create Seeker Account</p>
+
+          <form id="registerForm" class="px-2">
+            <div class="mb-3">
+              <input type="text" id="fullName" placeholder="Full Name" class="form-control border-0 shadow p-3" required />
+            </div>
+
+            <!-- Recruiter-only field -->
+            <div class="mb-3 d-none" id="companyNameGroup">
+              <input type="text" id="companyName" placeholder="Company Name" class="form-control border-0 shadow p-3" />
+            </div>
+
+            <div class="mb-3">
+              <input type="email" id="email" placeholder="Email" class="form-control border-0 shadow p-3" required />
+            </div>
+
+            <div class="mb-3 position-relative">
+              <input type="password" id="password" placeholder="Password" class="form-control border-0 shadow p-3 pe-5" required />
+              <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor:pointer;" onclick="togglePwd('password','eyeIcon1')">
+                <i class="fa-regular fa-eye" id="eyeIcon1"></i>
+              </span>
+            </div>
+
+            <div class="mb-3 position-relative">
+              <input type="password" id="confirmPassword" placeholder="Confirm Password" class="form-control border-0 shadow p-3 pe-5" required />
+              <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor:pointer;" onclick="togglePwd('confirmPassword','eyeIcon2')">
+                <i class="fa-regular fa-eye" id="eyeIcon2"></i>
+              </span>
+            </div>
+
+            <input type="hidden" id="roleInput" value="seeker" />
+
+            <button type="submit" class="btn text-light w-100 p-3" style="background-color:#5D61BF;">Register</button>
+
             <p class="text-center mt-3 mb-0">
               Already have an account?
-              <a href="login.html" class="text-decoration-none" style="color: #5D61BF;">Sign In</a>
+              <a href="login.html" class="text-decoration-none" style="color:#5D61BF;">Sign In</a>
             </p>
           </form>
         </div>
 
-        <!-- Right side: Info -->
-        <div class="col-12 col-md-6 text-center text-light p-5" style="background-color: #5D61BF;">
-          <img src="images/logo-white.png" class="img-fluid mb-4" alt="logo" style="max-width: 200px;" />
-          <p class="px-3">
-            Make a CV to define yourself the right way. Meet thousands of job announcements and employers by the help of your profile with a private extension, which you can share across all social media platforms.
-          </p>
-          <a
-            href="login.html"
-            class="btn text-light px-4 mt-3"
-            style="background-color: rgba(255,255,255,0.2); border: 1px solid #fff;"
-            >Login</a
-          >
+        <!-- Right: Info -->
+        <div class="col-12 col-md-6 text-center text-light p-5 d-flex flex-column justify-content-center rounded-end" style="background-color:#5D61BF;">
+          <img src="images/logo-white.png" class="img-fluid mb-4 mx-auto" alt="logo" style="max-width:200px;" />
+          <p class="px-3">Join thousands of job seekers and top recruiters on My Job Gator. Find your dream job or the perfect candidate today.</p>
+          <a href="login.html" class="btn text-light px-4 mt-3 mx-auto" style="background-color:rgba(255,255,255,0.2);border:1px solid #fff;">Login</a>
         </div>
+
       </div>
     </div>
   </div>
 
   <script src="js/bootstrap.bundle.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/session-manager.js"></script>
-  <script src="js/validation.js"></script>
+  <script>
+    function switchRole(role) {
+      document.getElementById('roleInput').value = role;
+      const isRecruiter = role === 'recruiter';
+      document.getElementById('companyNameGroup').classList.toggle('d-none', !isRecruiter);
+      document.getElementById('formTitle').textContent = isRecruiter ? 'Create Recruiter Account' : 'Create Seeker Account';
+      document.getElementById('seekerTab').classList.toggle('active', !isRecruiter);
+      document.getElementById('recruiterTab').classList.toggle('active', isRecruiter);
+    }
+
+    function togglePwd(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon  = document.getElementById(iconId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const fullName        = document.getElementById('fullName').value.trim();
+      const email           = document.getElementById('email').value.trim();
+      const password        = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const role            = document.getElementById('roleInput').value;
+      const companyName     = document.getElementById('companyName').value.trim();
+
+      if (!fullName || !email || !password || !confirmPassword)
+        return showNotification('Please fill in all fields', 'error');
+      if (password !== confirmPassword)
+        return showNotification('Passwords do not match', 'error');
+      if (password.length < 6)
+        return showNotification('Password must be at least 6 characters', 'error');
+      if (role === 'recruiter' && !companyName)
+        return showNotification('Company name is required for recruiters', 'error');
+
+      try {
+        await authManager.register({ fullName, email, password, role, companyName });
+        showNotification('Registration successful!', 'success');
+        setTimeout(() => window.location.href = role === 'recruiter' ? 'dashboard.html' : 'dashboard.html', 1500);
+      } catch (err) {
+        showNotification(err.message, 'error');
+      }
+    });
+  </script>
 </body>
 </html>

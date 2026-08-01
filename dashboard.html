@@ -11,189 +11,367 @@
 </head>
 
 <body>
-  <div class="container-fluid p-0">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-light shadow sticky-top p-2">
-      <div class="container-fluid">
-        <a href="index.html">
-          <img src="images/asset 0.png" alt="Logo" height="50" class="ms-2 my-2 img-fluid" />
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse text-center" id="navbarNav">
-          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-            <li class="nav-item"><a class="nav-link ms-lg-3" href="job.html">Jobs</a></li>
-            <li class="nav-item"><a class="nav-link ms-lg-3" href="career.html">Career Advice</a></li>
-            <li class="nav-item"><a class="nav-link ms-lg-3" href="sectors.html">Sectors</a></li>
-            <li class="nav-item"><a class="nav-link active ms-lg-3" style="color:#F03737;" href="dashboard.html">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link ms-lg-3" style="color:#F03737;" href="#" onclick="authManager.logout()">Logout</a></li>
-          </ul>
-          <a href="post-job.html" class="btn text-light px-3" style="background-color:#F03737;">+ Post a Job</a>
+<div class="container-fluid p-0">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-light shadow sticky-top p-2">
+    <div class="container-fluid">
+      <a href="index.html"><img src="images/asset 0.png" alt="Logo" height="50" class="ms-2 my-2 img-fluid" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center" id="navbarNav">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="job.html">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="career.html">Career Advice</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="sectors.html">Sectors</a></li>
+          <li class="nav-item"><a class="nav-link active ms-lg-3" href="dashboard.html" style="color:#F03737;">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="profile.html" style="color:#5D61BF;">Profile</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" style="color:#F03737;" href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+        <!-- Only shown for recruiters -->
+        <a href="post-job.html" class="btn text-light px-3 d-none" id="postJobBtn" style="background-color:#F03737;">+ Post a Job</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="py-5">
+    <div class="container">
+
+      <!-- Welcome -->
+      <div class="card shadow mb-4">
+        <div class="card-body p-4 d-flex align-items-center gap-3">
+          <div class="position-relative flex-shrink-0" style="width:60px;height:60px;">
+            <img id="dashProfileImg" src="" alt="" class="rounded-circle d-none" style="width:60px;height:60px;object-fit:cover;">
+            <div class="rounded-circle d-flex align-items-center justify-content-center text-white fs-2 fw-bold"
+                 id="avatarCircle" style="width:60px;height:60px;background-color:#5D61BF;"></div>
+          </div>
+          <div>
+            <h4 class="mb-0" id="welcomeMessage">Welcome back!</h4>
+            <p class="text-muted mb-0" id="welcomeRole"></p>
+          </div>
         </div>
       </div>
-    </nav>
 
-    <!-- Dashboard Content -->
-    <section class="py-5">
-      <div class="container">
-        <!-- Welcome Section -->
-        <div class="row mb-4">
-          <div class="col-12">
-            <div class="card shadow">
-              <div class="card-body p-4">
-                <h2 id="welcomeMessage">Welcome back!</h2>
-                <p class="text-muted">Manage your job applications and saved jobs</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Stats Cards -->
+      <!-- ===== SEEKER DASHBOARD ===== -->
+      <div id="seekerDashboard">
+        <!-- Stats -->
         <div class="row mb-4">
           <div class="col-md-4 mb-3">
             <div class="card text-center shadow-sm">
               <div class="card-body">
-                <i class="fa-solid fa-briefcase fs-1 mb-3" style="color:#F03737;"></i>
+                <i class="fa-solid fa-briefcase fs-1 mb-2" style="color:#F03737;"></i>
                 <h4 id="appliedJobsCount">0</h4>
-                <p class="text-muted">Applied Jobs</p>
+                <p class="text-muted mb-0">Applied Jobs</p>
               </div>
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <div class="card text-center shadow-sm">
               <div class="card-body">
-                <i class="fa-solid fa-heart fs-1 mb-3" style="color:#F03737;"></i>
+                <i class="fa-solid fa-heart fs-1 mb-2" style="color:#F03737;"></i>
                 <h4 id="savedJobsCount">0</h4>
-                <p class="text-muted">Saved Jobs</p>
+                <p class="text-muted mb-0">Saved Jobs</p>
               </div>
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <div class="card text-center shadow-sm">
               <div class="card-body">
-                <i class="fa-solid fa-user fs-1 mb-3" style="color:#F03737;"></i>
+                <i class="fa-solid fa-circle-check fs-1 mb-2" style="color:#28a745;"></i>
                 <h4>Active</h4>
-                <p class="text-muted">Profile Status</p>
+                <p class="text-muted mb-0">Profile Status</p>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Tabs -->
-        <div class="row">
-          <div class="col-12">
-            <ul class="nav nav-tabs" id="dashboardTabs">
-              <li class="nav-item">
-                <a class="nav-link active" data-bs-toggle="tab" href="#appliedJobs">Applied Jobs</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#savedJobs">Saved Jobs</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#profile">Profile</a>
-              </li>
-            </ul>
-
-            <div class="tab-content mt-4">
-              <!-- Applied Jobs Tab -->
-              <div class="tab-pane fade show active" id="appliedJobs">
-                <div class="card shadow">
-                  <div class="card-header">
-                    <h5 class="mb-0">Your Job Applications</h5>
-                  </div>
-                  <div class="card-body">
-                    <div id="appliedJobsList">
-                      <p class="text-muted text-center">No job applications yet. <a href="job.html">Browse jobs</a> to get started!</p>
-                    </div>
-                  </div>
-                </div>
+        <ul class="nav nav-tabs" id="seekerTabs">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#appliedJobs">Applied Jobs</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#savedJobs">Saved Jobs</button></li>
+        </ul>
+        <div class="tab-content mt-4">
+          <div class="tab-pane fade show active" id="appliedJobs">
+            <div class="card shadow">
+              <div class="card-header"><h5 class="mb-0">Your Applications</h5></div>
+              <div class="card-body" id="appliedJobsList">
+                <p class="text-muted text-center">No applications yet. <a href="job.html">Browse jobs</a> to get started!</p>
               </div>
-
-              <!-- Saved Jobs Tab -->
-              <div class="tab-pane fade" id="savedJobs">
-                <div class="card shadow">
-                  <div class="card-header">
-                    <h5 class="mb-0">Your Saved Jobs</h5>
-                  </div>
-                  <div class="card-body">
-                    <div id="savedJobsList">
-                      <p class="text-muted text-center">No saved jobs yet. <a href="job.html">Browse jobs</a> and save your favorites!</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Profile Tab -->
-              <div class="tab-pane fade" id="profile">
-                <div class="card shadow">
-                  <div class="card-header">
-                    <h5 class="mb-0">Profile Information</h5>
-                  </div>
-                  <div class="card-body">
-                    <form id="profileForm">
-                      <div class="row">
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Full Name</label>
-                          <input type="text" class="form-control" id="profileName" readonly>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">Email</label>
-                          <input type="email" class="form-control" id="profileEmail" readonly>
-                        </div>
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Member Since</label>
-                        <input type="text" class="form-control" id="memberSince" readonly>
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Bio</label>
-                        <textarea class="form-control" rows="3" placeholder="Tell us about yourself..."></textarea>
-                      </div>
-                      <button type="button" class="btn" style="background-color:#F03737; color:white;" onclick="updateProfile()">Update Profile</button>
-                    </form>
-                  </div>
-                </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="savedJobs">
+            <div class="card shadow">
+              <div class="card-header"><h5 class="mb-0">Saved Jobs</h5></div>
+              <div class="card-body" id="savedJobsList">
+                <p class="text-muted text-center">No saved jobs yet.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="text-light mt-5" style="background-color:#212529;">
-      <div class="container py-5">
-        <div class="row gy-4">
-          <div class="col-12 col-md-4">
-            <h2 class="text-center">Contact <span style="color:#F03737;">Info</span></h2>
-            <hr class="text-light" />
-            <p>DO YOU HAVE A QUESTION?<br /><span class="fs-5">info@myjobgator.com</span></p>
+      <!-- ===== RECRUITER DASHBOARD ===== -->
+      <div id="recruiterDashboard" class="d-none">
+        <!-- Stats -->
+        <div class="row mb-4">
+          <div class="col-md-3 mb-3">
+            <div class="card text-center shadow-sm">
+              <div class="card-body">
+                <i class="fa-solid fa-list-check fs-1 mb-2" style="color:#F03737;"></i>
+                <h4 id="totalJobs">0</h4>
+                <p class="text-muted mb-0">Total Jobs</p>
+              </div>
+            </div>
           </div>
-          <div class="col-6 col-md-4">
-            <h2 class="text-center">Quick <span style="color:#F03737;">Links</span></h2>
-            <hr class="text-light" />
-            <a href="index.html" class="text-decoration-none text-light d-block mb-2">Home</a>
-            <a href="job.html" class="text-decoration-none text-light d-block mb-2">Jobs</a>
-            <a href="career.html" class="text-decoration-none text-light d-block mb-2">Career</a>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center shadow-sm">
+              <div class="card-body">
+                <i class="fa-solid fa-circle-check fs-1 mb-2" style="color:#28a745;"></i>
+                <h4 id="activeJobs">0</h4>
+                <p class="text-muted mb-0">Active Jobs</p>
+              </div>
+            </div>
           </div>
-          <div class="col-6 col-md-4">
-            <h2 class="text-center">Our <span style="color:#F03737;">Company</span></h2>
-            <hr class="text-light" />
-            <a href="about.html" class="text-decoration-none text-light d-block mb-2">About Us</a>
-            <a href="privacy.html" class="text-decoration-none text-light d-block mb-2">Privacy Policy</a>
-            <a href="contact.html" class="text-decoration-none text-light d-block mb-2">Contact Us</a>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center shadow-sm">
+              <div class="card-body">
+                <i class="fa-solid fa-circle-xmark fs-1 mb-2" style="color:#6c757d;"></i>
+                <h4 id="closedJobs">0</h4>
+                <p class="text-muted mb-0">Closed Jobs</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <div class="card text-center shadow-sm">
+              <div class="card-body">
+                <i class="fa-solid fa-users fs-1 mb-2" style="color:#5D61BF;"></i>
+                <h4 id="totalApplications">0</h4>
+                <p class="text-muted mb-0">Applications</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recruiter Tabs -->
+        <ul class="nav nav-tabs" id="recruiterTabs">
+          <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#myJobs">My Jobs</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#allApplications">Applications</button></li>
+          <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#recruiterSavedJobs">Saved Jobs</button></li>
+        </ul>
+        <div class="tab-content mt-4">
+          <div class="tab-pane fade show active" id="myJobs">
+            <div class="card shadow">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Posted Jobs</h5>
+                <a href="post-job.html" class="btn btn-sm text-light" style="background-color:#F03737;">+ Post New Job</a>
+              </div>
+              <div class="card-body" id="recruiterJobsList">
+                <p class="text-muted text-center">No jobs posted yet.</p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="allApplications">
+            <div class="card shadow">
+              <div class="card-header"><h5 class="mb-0">Recent Applicants</h5></div>
+              <div class="card-body" id="recruiterApplicantsList">
+                <p class="text-muted text-center">No applications yet.</p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="recruiterSavedJobs">
+            <div class="card shadow">
+              <div class="card-header"><h5 class="mb-0">Saved Jobs</h5></div>
+              <div class="card-body" id="recruiterSavedJobsList">
+                <p class="text-muted text-center">No saved jobs yet.</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </footer>
-  </div>
 
-  <script src="js/bootstrap.bundle.js"></script>
-  <script src="js/job-database.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/session-manager.js"></script>
-  <script src="js/dashboard.js"></script>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-light mt-5" style="background-color:#212529;">
+    <div class="container py-4">
+      <p class="text-center small mb-0">&copy; 2024 My Job Gator. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<script src="js/bootstrap.bundle.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  document.getElementById('logoutBtn').addEventListener('click', (e) => { e.preventDefault(); authManager.logout(); });
+
+  async function initDashboard() {
+    const res = await fetch('/api/auth/me', { credentials: 'include' });
+    if (!res.ok) return window.location.href = 'login.html';
+    const { user } = await res.json();
+
+    if (user.profileImage) {
+      const img = document.getElementById('dashProfileImg');
+      img.src = user.profileImage;
+      img.classList.remove('d-none');
+      document.getElementById('avatarCircle').classList.add('d-none');
+    } else {
+      document.getElementById('avatarCircle').textContent = user.fullName.charAt(0).toUpperCase();
+    }
+    document.getElementById('welcomeMessage').textContent = `Welcome back, ${user.fullName}!`;
+    document.getElementById('welcomeRole').textContent = user.role === 'recruiter' ? 'Recruiter Account' : 'Job Seeker Account';
+
+    if (user.role === 'recruiter') {
+      document.getElementById('seekerDashboard').classList.add('d-none');
+      document.getElementById('recruiterDashboard').classList.remove('d-none');
+      document.getElementById('postJobBtn').classList.remove('d-none');
+      loadRecruiterDashboard();
+    } else {
+      loadSeekerDashboard();
+    }
+  }
+
+  async function loadSeekerDashboard() {
+    const [appliedRes, savedRes] = await Promise.all([
+      fetch('/api/jobs/user/applied', { credentials: 'include' }),
+      fetch('/api/jobs/user/saved',   { credentials: 'include' })
+    ]);
+    const applied = await appliedRes.json();
+    const saved   = await savedRes.json();
+
+    document.getElementById('appliedJobsCount').textContent = applied.length;
+    document.getElementById('savedJobsCount').textContent   = saved.length;
+
+    const appliedContainer = document.getElementById('appliedJobsList');
+    if (applied.length) {
+      const statusColor = { 'Applied':'primary','Under Review':'warning','Interview Scheduled':'info','Selected':'success','Rejected':'danger' };
+      appliedContainer.innerHTML = applied.map(app => `
+        <div class="border-bottom pb-3 mb-3 row align-items-center">
+          <div class="col-md-8">
+            <h6 class="mb-1">${app.job?.title || 'Job'}</h6>
+            <p class="text-muted mb-1">${app.job?.company || ''} &bull; ${app.job?.location || ''}</p>
+            <small class="text-muted">Applied: ${new Date(app.appliedDate).toLocaleDateString()}</small>
+          </div>
+          <div class="col-md-4 text-end">
+            <span class="badge bg-${statusColor[app.status] || 'primary'}">${app.status}</span>
+          </div>
+        </div>`).join('');
+    }
+
+    const savedContainer = document.getElementById('savedJobsList');
+    if (saved.length) {
+      savedContainer.innerHTML = saved.map(job => `
+        <div class="border-bottom pb-3 mb-3 row align-items-center">
+          <div class="col-md-8">
+            <h6 class="mb-1">${job.title}</h6>
+            <p class="text-muted mb-1">${job.company} &bull; ${job.location}</p>
+            <p class="text-success mb-0">${job.salary}</p>
+          </div>
+          <div class="col-md-4 text-end">
+            <a href="job-details.html?id=${job._id}" class="btn btn-sm btn-primary me-2">View</a>
+            <button class="btn btn-sm btn-outline-danger" onclick="unsaveJob('${job._id}')"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>`).join('');
+    }
+  }
+
+  async function unsaveJob(jobId) {
+    await fetch(`/api/jobs/${jobId}/save`, { method: 'DELETE', credentials: 'include' });
+    loadSeekerDashboard();
+  }
+
+  async function loadRecruiterDashboard() {
+    const [statsRes, appsRes, savedRes] = await Promise.all([
+      fetch('/api/dashboard', { credentials: 'include' }),
+      fetch('/api/applications', { credentials: 'include' }),
+      fetch('/api/jobs/user/saved', { credentials: 'include' })
+    ]);
+    const stats = await statsRes.json();
+    const jobs  = stats.myJobs || [];
+    const apps  = await appsRes.json();
+    const saved = await savedRes.json();
+
+    document.getElementById('totalJobs').textContent         = stats.totalJobs || 0;
+    document.getElementById('activeJobs').textContent        = stats.activeJobs || 0;
+    document.getElementById('closedJobs').textContent        = stats.closedJobs || 0;
+    document.getElementById('totalApplications').textContent = stats.totalApplications || 0;
+
+    const jobsContainer = document.getElementById('recruiterJobsList');
+    jobsContainer.innerHTML = jobs.length ? jobs.map(j => `
+      <div class="border-bottom pb-3 mb-3 d-flex justify-content-between align-items-center">
+        <div>
+          <h6 class="mb-1">${j.title}</h6>
+          <small class="text-muted">${j.location} &bull; ${j.type} &bull; ${j.isActive ? '<span class="text-success">Active</span>' : '<span class="text-danger">Closed</span>'}</small>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="job-details.html?id=${j._id}" class="btn btn-sm btn-outline-primary">View</a>
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteJob('${j._id}')">Delete</button>
+        </div>
+      </div>`).join('') : '<p class="text-muted text-center">No jobs posted yet.</p>';
+
+    const appsContainer = document.getElementById('recruiterApplicantsList');
+    if (apps.length) {
+      const statusColor = { 'Applied':'primary','Under Review':'warning','Interview Scheduled':'info','Selected':'success','Rejected':'danger' };
+      appsContainer.innerHTML = apps.map(app => `
+        <div class="border-bottom pb-3 mb-3 row align-items-center">
+          <div class="col-md-6">
+            <h6 class="mb-1">${app.applicant?.fullName || 'Applicant'}</h6>
+            <small class="text-muted">${app.applicant?.email || ''} &bull; Applied for: ${app.job?.title || ''}</small>
+          </div>
+          <div class="col-md-6 text-end d-flex gap-2 justify-content-end align-items-center">
+            <span class="badge bg-${statusColor[app.status] || 'primary'}">${app.status}</span>
+            <select class="form-select form-select-sm" style="width:auto;" onchange="updateStatus('${app._id}', this.value)">
+              <option value="">Update</option>
+              <option value="Under Review">Under Review</option>
+              <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Selected">Selected</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </div>`).join('');
+    }
+
+    const savedContainer = document.getElementById('recruiterSavedJobsList');
+    savedContainer.innerHTML = saved.length ? saved.filter(Boolean).map(job => `
+      <div class="border-bottom pb-3 mb-3 row align-items-center">
+        <div class="col-md-8">
+          <h6 class="mb-1">${job.title}</h6>
+          <p class="text-muted mb-1">${job.company} &bull; ${job.location}</p>
+          <p class="text-success mb-0">${job.salary || ''}</p>
+        </div>
+        <div class="col-md-4 text-end">
+          <a href="job-details.html?id=${job._id}" class="btn btn-sm btn-primary me-2">View</a>
+          <button class="btn btn-sm btn-outline-danger" onclick="recruiterUnsaveJob('${job._id}')"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>`).join('') : '<p class="text-muted text-center">No saved jobs yet.</p>';
+  }
+
+  async function recruiterUnsaveJob(jobId) {
+    await fetch(`/api/jobs/${jobId}/save`, { method: 'DELETE', credentials: 'include' });
+    loadRecruiterDashboard();
+  }
+
+  async function deleteJob(id) {
+    if (!confirm('Delete this job?')) return;
+    const res = await fetch(`/api/jobs/${id}`, { method: 'DELETE', credentials: 'include' });
+    if (res.ok) { showNotification('Job deleted', 'success'); loadRecruiterDashboard(); }
+    else showNotification('Failed to delete job', 'error');
+  }
+
+  async function updateStatus(appId, status) {
+    if (!status) return;
+    const res = await fetch(`/api/applications/${appId}/status`, {
+      method: 'PATCH', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status })
+    });
+    if (res.ok) { showNotification(`Status updated to "${status}"`, 'success'); loadRecruiterDashboard(); }
+    else showNotification('Failed to update status', 'error');
+  }
+
+  document.addEventListener('DOMContentLoaded', initDashboard);
+</script>
 </body>
 </html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Job Gator | Profile</title>
+  <link rel="stylesheet" href="css/bootstrap.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="shortcut icon" href="images/icon.jpg" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+<div class="container-fluid p-0">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-light shadow sticky-top p-2">
+    <div class="container-fluid">
+      <a href="index.html"><img src="images/asset 0.png" alt="Logo" height="50" class="ms-2 my-2 img-fluid" /></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse text-center" id="navbarNav">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="job.html">Jobs</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="career.html">Career Advice</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="sectors.html">Sectors</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" href="dashboard.html" style="color:#5D61BF;">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link active ms-lg-3" href="profile.html" style="color:#F03737;">Profile</a></li>
+          <li class="nav-item"><a class="nav-link ms-lg-3" style="color:#F03737;" href="#" id="logoutBtn">Logout</a></li>
+        </ul>
+        <a href="post-job.html" class="btn text-light px-3 d-none" id="postJobBtn" style="background-color:#F03737;">+ Post a Job</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Profile Section -->
+  <section class="py-5" style="background-color:#F2F6FF;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+          <!-- Profile Header Card -->
+          <div class="card shadow mb-4">
+            <div class="card-body p-4 d-flex align-items-center gap-4">
+              <!-- Avatar with upload -->
+              <div class="position-relative flex-shrink-0" style="width:90px;height:90px;">
+                <img id="profilePicImg" src="" alt="Profile" class="rounded-circle d-none"
+                     style="width:90px;height:90px;object-fit:cover;border:3px solid #5D61BF;" />
+                <div id="avatarCircle"
+                     class="rounded-circle d-flex align-items-center justify-content-center text-white fs-1 fw-bold"
+                     style="width:90px;height:90px;background-color:#5D61BF;"></div>
+                <label for="profilePicInput" title="Change photo"
+                       class="position-absolute bottom-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center shadow"
+                       style="width:28px;height:28px;cursor:pointer;border:2px solid #5D61BF;">
+                  <i class="fa-solid fa-camera" style="font-size:12px;color:#5D61BF;"></i>
+                </label>
+                <input type="file" id="profilePicInput" accept="image/*" class="d-none" onchange="uploadProfilePic(this)" />
+              </div>
+              <div>
+                <h4 class="mb-1" id="profileDisplayName">Loading...</h4>
+                <p class="text-muted mb-1" id="profileDisplayEmail"></p>
+                <span class="badge" id="roleBadge" style="background-color:#F03737;">Seeker</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <ul class="nav nav-tabs mb-4" id="profileTabs">
+            <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#basicInfo">Basic Info</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#extraInfo" id="extraTabBtn">Skills & Experience</button></li>
+            <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">Security</button></li>
+          </ul>
+
+          <div class="tab-content">
+
+            <!-- Basic Info Tab -->
+            <div class="tab-pane fade show active" id="basicInfo">
+              <div class="card shadow">
+                <div class="card-body p-4">
+                  <h5 class="mb-4" style="color:#F03737;" id="basicInfoTitle">Personal Information</h5>
+                  <form id="basicInfoForm">
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" />
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="phone" />
+                      </div>
+                    </div>
+
+                    <!-- Seeker fields -->
+                    <div id="seekerBasicFields">
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">City</label>
+                          <input type="text" class="form-control" id="city" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">State</label>
+                          <input type="text" class="form-control" id="state" />
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Country</label>
+                          <input type="text" class="form-control" id="country" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Address</label>
+                          <input type="text" class="form-control" id="address" />
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">About Me</label>
+                        <textarea class="form-control" id="about" rows="3" placeholder="Tell employers about yourself..."></textarea>
+                      </div>
+                    </div>
+
+                    <!-- Recruiter fields -->
+                    <div id="recruiterBasicFields" class="d-none">
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Company Name</label>
+                          <input type="text" class="form-control" id="companyName" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Website</label>
+                          <input type="url" class="form-control" id="website" placeholder="https://company.com" />
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" placeholder="City, State" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Company Description</label>
+                        <textarea class="form-control" id="companyDescription" rows="4" placeholder="Describe your company..."></textarea>
+                      </div>
+                    </div>
+
+                    <button type="submit" class="btn text-light px-4" style="background-color:#F03737;">Save Changes</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+            <!-- Skills & Experience / Company Details Tab -->
+            <div class="tab-pane fade" id="extraInfo">
+              <div class="card shadow">
+                <div class="card-body p-4">
+
+                  <!-- Seeker: Skills, Education, Experience, Resume -->
+                  <div id="seekerExtraFields">
+                    <h5 class="mb-4" style="color:#F03737;">Skills & Background</h5>
+                    <form id="seekerExtraForm">
+                      <div class="mb-3">
+                        <label class="form-label">Skills <small class="text-muted">(comma separated)</small></label>
+                        <input type="text" class="form-control" id="skills" placeholder="JavaScript, React, Node.js" />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Education</label>
+                        <input type="text" class="form-control" id="education" placeholder="B.Tech Computer Science, XYZ University, 2020" />
+                        <small class="text-muted">Format: Degree, Institution, Year</small>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Experience</label>
+                        <input type="text" class="form-control" id="experience" placeholder="Software Engineer, ABC Corp, 2 years" />
+                        <small class="text-muted">Format: Title, Company, Duration</small>
+                      </div>
+                      <div class="mb-4">
+                        <label class="form-label">Resume</label>
+                        <div class="d-flex align-items-center gap-3">
+                          <span id="resumeStatus" class="text-muted">No resume uploaded</span>
+                          <button type="button" class="btn btn-sm btn-outline-danger d-none" id="deleteResumeBtn" onclick="deleteResume()">
+                            <i class="fa-solid fa-trash"></i> Remove
+                          </button>
+                        </div>
+                        <input type="text" class="form-control mt-2" id="resumeUrl" placeholder="Paste resume URL or filename" />
+                        <small class="text-muted">Paste a link to your resume (Google Drive, Dropbox, etc.)</small>
+                      </div>
+                      <button type="submit" class="btn text-light px-4" style="background-color:#F03737;">Save Changes</button>
+                    </form>
+                  </div>
+
+                  <!-- Recruiter: Posted Jobs summary -->
+                  <div id="recruiterExtraFields" class="d-none">
+                    <h5 class="mb-4" style="color:#F03737;">Posted Jobs</h5>
+                    <div id="recruiterJobsList">
+                      <p class="text-muted">Loading your posted jobs...</p>
+                    </div>
+                    <a href="post-job.html" class="btn text-light mt-3" style="background-color:#F03737;">
+                      <i class="fa-solid fa-plus"></i> Post New Job
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Security Tab -->
+            <div class="tab-pane fade" id="security">
+              <div class="card shadow">
+                <div class="card-body p-4">
+                  <h5 class="mb-4" style="color:#F03737;">Change Password</h5>
+                  <form id="passwordForm">
+                    <div class="mb-3 position-relative">
+                      <label class="form-label">Current Password</label>
+                      <input type="password" class="form-control pe-5" id="currentPassword" />
+                      <span class="position-absolute end-0 me-3" style="cursor:pointer;top:38px;" onclick="toggleField('currentPassword','eye3')">
+                        <i class="fa-regular fa-eye" id="eye3"></i>
+                      </span>
+                    </div>
+                    <div class="mb-3 position-relative">
+                      <label class="form-label">New Password</label>
+                      <input type="password" class="form-control pe-5" id="newPassword" />
+                      <span class="position-absolute end-0 me-3" style="cursor:pointer;top:38px;" onclick="toggleField('newPassword','eye4')">
+                        <i class="fa-regular fa-eye" id="eye4"></i>
+                      </span>
+                    </div>
+                    <div class="mb-4 position-relative">
+                      <label class="form-label">Confirm New Password</label>
+                      <input type="password" class="form-control pe-5" id="confirmNewPassword" />
+                      <span class="position-absolute end-0 me-3" style="cursor:pointer;top:38px;" onclick="toggleField('confirmNewPassword','eye5')">
+                        <i class="fa-regular fa-eye" id="eye5"></i>
+                      </span>
+                    </div>
+                    <button type="submit" class="btn text-light px-4" style="background-color:#F03737;">Update Password</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- end tab-content -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-light mt-5" style="background-color:#212529;">
+    <div class="container py-4">
+      <p class="text-center small mb-0">&copy; 2024 My Job Gator. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
+
+<script src="js/bootstrap.bundle.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  let currentUser = null;
+
+  document.getElementById('logoutBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    authManager.logout();
+  });
+
+  function toggleField(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.classList.replace('fa-eye', 'fa-eye-slash');
+    } else {
+      input.type = 'password';
+      icon.classList.replace('fa-eye-slash', 'fa-eye');
+    }
+  }
+
+  async function loadProfile() {
+    try {
+      const res = await fetch('/api/users/profile', { credentials: 'include' });
+      if (!res.ok) return window.location.href = 'login.html';
+      currentUser = await res.json();
+      renderProfile(currentUser);
+    } catch (err) {
+      showNotification('Failed to load profile', 'error');
+    }
+  }
+
+  function renderProfile(user) {
+    const isRecruiter = user.role === 'recruiter';
+
+    // Header
+    document.getElementById('profileDisplayName').textContent = user.fullName;
+    document.getElementById('profileDisplayEmail').textContent = user.email;
+    document.getElementById('roleBadge').textContent = isRecruiter ? 'Recruiter' : 'Job Seeker';
+    document.getElementById('avatarCircle').textContent = user.fullName.charAt(0).toUpperCase();
+
+    // Profile picture
+    if (user.profileImage) {
+      document.getElementById('profilePicImg').src = user.profileImage;
+      document.getElementById('profilePicImg').classList.remove('d-none');
+      document.getElementById('avatarCircle').classList.add('d-none');
+    } else {
+      document.getElementById('avatarCircle').textContent = user.fullName.charAt(0).toUpperCase();
+      document.getElementById('avatarCircle').classList.remove('d-none');
+      document.getElementById('profilePicImg').classList.add('d-none');
+    }
+
+    // Post Job button
+    if (isRecruiter) document.getElementById('postJobBtn').classList.remove('d-none');
+
+    // Basic Info
+    document.getElementById('fullName').value  = user.fullName || '';
+    document.getElementById('phone').value     = user.phone || '';
+
+    if (isRecruiter) {
+      document.getElementById('seekerBasicFields').classList.add('d-none');
+      document.getElementById('recruiterBasicFields').classList.remove('d-none');
+      document.getElementById('basicInfoTitle').textContent = 'Company Information';
+      document.getElementById('extraTabBtn').textContent = 'Posted Jobs';
+      document.getElementById('companyName').value        = user.companyName || '';
+      document.getElementById('website').value            = user.website || '';
+      document.getElementById('location').value           = user.location || '';
+      document.getElementById('companyDescription').value = user.companyDescription || '';
+      document.getElementById('seekerExtraFields').classList.add('d-none');
+      document.getElementById('recruiterExtraFields').classList.remove('d-none');
+      loadRecruiterJobs();
+    } else {
+      document.getElementById('city').value    = user.city || '';
+      document.getElementById('state').value   = user.state || '';
+      document.getElementById('country').value = user.country || '';
+      document.getElementById('address').value = user.address || '';
+      document.getElementById('about').value   = user.about || '';
+      document.getElementById('skills').value  = (user.skills || []).join(', ');
+      document.getElementById('education').value  = user.education?.map(e => `${e.degree}, ${e.institution}, ${e.year}`).join('\n') || '';
+      document.getElementById('experience').value = user.experience?.map(e => `${e.title}, ${e.company}, ${e.years}`).join('\n') || '';
+      if (user.resume) {
+        document.getElementById('resumeStatus').textContent = user.resume;
+        document.getElementById('resumeStatus').className = 'text-success';
+        document.getElementById('deleteResumeBtn').classList.remove('d-none');
+        document.getElementById('resumeUrl').value = user.resume;
+      }
+    }
+  }
+
+  async function loadRecruiterJobs() {
+    try {
+      const res = await fetch('/api/jobs?recruiter=me', { credentials: 'include' });
+      const jobs = await res.json();
+      const container = document.getElementById('recruiterJobsList');
+      if (!jobs.length) {
+        container.innerHTML = '<p class="text-muted">No jobs posted yet.</p>';
+        return;
+      }
+      container.innerHTML = jobs.map(j => `
+        <div class="border-bottom pb-3 mb-3 d-flex justify-content-between align-items-center">
+          <div>
+            <h6 class="mb-1">${j.title}</h6>
+            <small class="text-muted">${j.location} &bull; ${j.type} &bull; ${j.isActive ? '<span class="text-success">Active</span>' : '<span class="text-danger">Closed</span>'}</small>
+          </div>
+          <div class="d-flex gap-2">
+            <a href="post-job.html?edit=${j._id}" class="btn btn-sm btn-outline-primary">Edit</a>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteJob('${j._id}')">Delete</button>
+          </div>
+        </div>`).join('');
+    } catch (_) {}
+  }
+
+  async function deleteJob(id) {
+    if (!confirm('Delete this job?')) return;
+    const res = await fetch(`/api/jobs/${id}`, { method: 'DELETE', credentials: 'include' });
+    if (res.ok) { showNotification('Job deleted', 'success'); loadRecruiterJobs(); }
+    else showNotification('Failed to delete job', 'error');
+  }
+
+  async function deleteResume() {
+    const res = await fetch('/api/users/resume', { method: 'DELETE', credentials: 'include' });
+    if (res.ok) {
+      document.getElementById('resumeStatus').textContent = 'No resume uploaded';
+      document.getElementById('resumeStatus').className = 'text-muted';
+      document.getElementById('deleteResumeBtn').classList.add('d-none');
+      document.getElementById('resumeUrl').value = '';
+      showNotification('Resume removed', 'success');
+    }
+  }
+
+  // Basic Info form
+  document.getElementById('basicInfoForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const isRecruiter = currentUser?.role === 'recruiter';
+    const payload = { fullName: document.getElementById('fullName').value.trim(), phone: document.getElementById('phone').value.trim() };
+
+    if (isRecruiter) {
+      payload.companyName        = document.getElementById('companyName').value.trim();
+      payload.website            = document.getElementById('website').value.trim();
+      payload.location           = document.getElementById('location').value.trim();
+      payload.companyDescription = document.getElementById('companyDescription').value.trim();
+    } else {
+      payload.city    = document.getElementById('city').value.trim();
+      payload.state   = document.getElementById('state').value.trim();
+      payload.country = document.getElementById('country').value.trim();
+      payload.address = document.getElementById('address').value.trim();
+      payload.about   = document.getElementById('about').value.trim();
+    }
+
+    const res = await fetch('/api/users/profile', {
+      method: 'PUT', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if (res.ok) {
+      showNotification('Profile updated!', 'success');
+      document.getElementById('profileDisplayName').textContent = data.user.fullName;
+      localStorage.setItem('currentUser', JSON.stringify(data.user));
+    } else showNotification(data.error, 'error');
+  });
+
+  // Seeker extra form
+  document.getElementById('seekerExtraForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const skillsRaw   = document.getElementById('skills').value;
+    const resumeUrl   = document.getElementById('resumeUrl').value.trim();
+    const skills      = skillsRaw.split(',').map(s => s.trim()).filter(Boolean);
+
+    const payload = { skills };
+
+    const res = await fetch('/api/users/profile', {
+      method: 'PUT', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      if (resumeUrl) {
+        await fetch('/api/users/resume', {
+          method: 'POST', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ resume: resumeUrl })
+        });
+        document.getElementById('resumeStatus').textContent = resumeUrl;
+        document.getElementById('resumeStatus').className = 'text-success';
+        document.getElementById('deleteResumeBtn').classList.remove('d-none');
+      }
+      showNotification('Profile updated!', 'success');
+    } else {
+      const data = await res.json();
+      showNotification(data.error, 'error');
+    }
+  });
+
+  // Password form
+  document.getElementById('passwordForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const currentPassword    = document.getElementById('currentPassword').value;
+    const newPassword        = document.getElementById('newPassword').value;
+    const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+
+    if (newPassword !== confirmNewPassword) return showNotification('New passwords do not match', 'error');
+    if (newPassword.length < 6) return showNotification('Password must be at least 6 characters', 'error');
+
+    const res = await fetch('/api/users/password', {
+      method: 'PATCH', credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    const data = await res.json();
+    if (res.ok) { showNotification('Password updated!', 'success'); this.reset(); }
+    else showNotification(data.error, 'error');
+  });
+
+  async function uploadProfilePic(input) {
+    const file = input.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) return showNotification('Image must be under 2MB', 'error');
+
+    const reader = new FileReader();
+    reader.onload = async function (e) {
+      const base64 = e.target.result;
+      const res = await fetch('/api/users/profile', {
+        method: 'PUT', credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profileImage: base64 })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('profilePicImg').src = base64;
+        document.getElementById('profilePicImg').classList.remove('d-none');
+        document.getElementById('avatarCircle').classList.add('d-none');
+        localStorage.setItem('currentUser', JSON.stringify(data.user));
+        showNotification('Profile picture updated!', 'success');
+      } else {
+        showNotification(data.error || 'Upload failed', 'error');
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', loadProfile);
+</script>
+</body>
+</html>

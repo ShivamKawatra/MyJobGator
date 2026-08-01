@@ -59,16 +59,17 @@
           <div class="col-12 col-md-6 col-lg-4">
             <input
               type="text"
+              id="searchQuery"
               class="form-control border-0 rounded-0 p-3 shadow"
               placeholder="Job Title, Keywords, or Company"
             />
             <p class="mt-2 mb-0 small">Browse job offers by Category or Location</p>
           </div>
           <div class="col-12 col-md-4 col-lg-3">
-            <input type="text" class="form-control border-0 rounded-0 p-3 shadow" placeholder="Location" />
+            <input type="text" id="searchLocation" class="form-control border-0 rounded-0 p-3 shadow" placeholder="Location" />
           </div>
           <div class="col-12 col-md-2 col-lg-2">
-            <a href="#" class="btn text-light p-3 w-100" style="background-color:#F03737;">Search</a>
+            <button id="searchBtn" class="btn text-light p-3 w-100" style="background-color:#F03737;">Search</button>
           </div>
         </div>
       </div>
@@ -173,8 +174,7 @@
                 <a href="#" class="text-decoration-none text-light">Career</a>
               </div>
               <div class="col-6">
-                <a href="#" class="text-decoration-none text-light">Order a Resume</a><br /><br />
-                <a href="#" class="text-decoration-none text-light">Sectors</a>
+                <a href="sectors.html" class="text-decoration-none text-light">Sectors</a>
               </div>
             </div>
           </div>
@@ -208,10 +208,96 @@
   </div>
 
   <script src="js/bootstrap.bundle.js"></script>
-  <script src="js/job-database.js"></script>
   <script src="js/auth.js"></script>
-  <script src="js/session-manager.js"></script>
-  <script src="js/job-search.js"></script>
-  <script src="js/validation.js"></script>
+  <script>
+    async function loadJobs() {
+      const container = document.querySelector('.row.row-cols-1.row-cols-md-2.row-cols-lg-3.g-4');
+      const params = new URLSearchParams(window.location.search);
+      const query = params.get('query') || '';
+      const location = params.get('location') || '';
+      const category = params.get('category') || '';
+      const qs = new URLSearchParams();
+      if (query) qs.set('query', query);
+      if (location) qs.set('location', location);
+      if (category) qs.set('category', category);
+
+      try {
+        const res = await fetch('/api/jobs?' + qs.toString());
+        const jobs = await res.json();
+        if (!jobs.length) {
+          container.innerHTML = '<div class="col-12 text-center"><div class="card p-5"><h4>No jobs found</h4><p>Try adjusting your search criteria.</p></div></div>';
+          return;
+        }
+        container.innerHTML = jobs.map(j => `
+          <div class="col">
+            <div class="card cardjob h-100">
+              <div class="card-body p-3">
+                <div class="d-flex align-items-start mb-3">
+                  <img src="${j.logo || 'images/jobicon.png'}" class="me-3 border" alt="Logo" style="width:50px;height:50px;object-fit:contain;">
+                  <div class="flex-grow-1">
+                    <h5 class="card-title mb-1">${j.title}</h5>
+                    <h6 class="text-muted mb-2">${j.company}</h6>
+                    <span class="badge bg-primary me-1">${j.type || ''}</span>
+                    <span class="badge bg-success">${j.experience || ''}</span>
+                  </div>
+                </div>
+                <p class="small text-muted mb-1"><i class="fa-solid fa-location-dot me-1"></i>${j.location || ''}</p>
+                <p class="small text-success mb-2"><i class="fa-solid fa-indian-rupee-sign me-1"></i>${j.salary || ''}</p>
+                <p class="card-text text-muted small mb-3">${(j.description || '').substring(0, 100)}...</p>
+                <div class="d-flex gap-2">
+                  <a href="job-details.html?id=${j._id}" class="btn btn-primary btn-sm flex-grow-1">View Details</a>
+                  <button class="btn btn-outline-danger btn-sm" onclick="handleSaveJob('${j._id}', this)" title="Save Job">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>`).join('');
+        document.querySelector('h1').textContent = `Job Listings (${jobs.length} jobs found)`;
+      } catch (e) {
+        container.innerHTML = '<div class="col-12 text-center"><p class="text-danger">Failed to load jobs. Make sure the server is running.</p></div>';
+      }
+    }
+
+    async function handleSaveJob(jobId, btn) {
+      if (!authManager.isLoggedIn()) {
+        showNotification('Please login to save jobs', 'warning');
+        return;
+      }
+      try {
+        await authManager.saveJob(jobId);
+        btn.classList.replace('btn-outline-danger', 'btn-danger');
+        btn.querySelector('i').classList.replace('fa-regular', 'fa-solid');
+        showNotification('Job saved!', 'success');
+      } catch (e) {
+        showNotification(e.message, 'error');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Pre-fill search inputs from URL params
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('query')) document.getElementById('searchQuery').value = params.get('query');
+      if (params.get('location')) document.getElementById('searchLocation').value = params.get('location');
+
+      loadJobs();
+
+      document.getElementById('searchBtn').addEventListener('click', () => {
+        const q = document.getElementById('searchQuery').value.trim();
+        const loc = document.getElementById('searchLocation').value.trim();
+        const qs = new URLSearchParams();
+        if (q) qs.set('query', q);
+        if (loc) qs.set('location', loc);
+        window.location.href = 'job.html?' + qs.toString();
+      });
+
+      // Also trigger search on Enter key
+      ['searchQuery', 'searchLocation'].forEach(id => {
+        document.getElementById(id).addEventListener('keydown', e => {
+          if (e.key === 'Enter') document.getElementById('searchBtn').click();
+        });
+      });
+    });
+  </script>
 </body>
 </html>

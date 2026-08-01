@@ -30,7 +30,7 @@
             <li class="nav-item"><a class="nav-link ms-lg-3" style="color:#F03737;" href="login.html">Login</a></li>
             <li class="nav-item"><a class="nav-link ms-lg-3" style="color:#F03737;" href="register.html">Sign Up</a></li>
           </ul>
-          <a href="post-job.html" class="btn text-light px-3" style="background-color:#F03737;">+ Post a Job</a>
+          <a href="post-job.html" id="postJobBtn" class="btn text-light px-3 d-none" style="background-color:#F03737;">+ Post a Job</a>
         </div>
       </div>
     </nav>
@@ -50,13 +50,13 @@
           <div class="col-lg-8">
             <div class="card shadow">
               <div class="card-body p-5">
-                <form id="jobPostForm">
+                <form id="jobPostForm" novalidate>
                   <!-- Company Information -->
                   <h4 class="mb-4" style="color:#F03737;">Company Information</h4>
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Company Name *</label>
-                      <input type="text" class="form-control" id="companyName" required>
+                      <input type="text" class="form-control" id="companyName">
                     </div>
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Company Website</label>
@@ -75,11 +75,11 @@
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Job Title *</label>
-                      <input type="text" class="form-control" id="jobTitle" required>
+                      <input type="text" class="form-control" id="jobTitle">
                     </div>
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Job Category *</label>
-                      <select class="form-control" id="jobCategory" required>
+                      <select class="form-control" id="jobCategory">
                         <option value="">Select Category</option>
                         <option value="technology">Technology & IT</option>
                         <option value="healthcare">Healthcare & Medical</option>
@@ -97,7 +97,7 @@
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Employment Type *</label>
-                      <select class="form-control" id="employmentType" required>
+                      <select class="form-control" id="employmentType">
                         <option value="">Select Type</option>
                         <option value="full-time">Full-time</option>
                         <option value="part-time">Part-time</option>
@@ -108,7 +108,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Experience Level *</label>
-                      <select class="form-control" id="experienceLevel" required>
+                      <select class="form-control" id="experienceLevel">
                         <option value="">Select Level</option>
                         <option value="entry">Entry Level</option>
                         <option value="mid">Mid Level</option>
@@ -121,7 +121,7 @@
                   <div class="row">
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Location *</label>
-                      <input type="text" class="form-control" id="jobLocation" required>
+                      <input type="text" class="form-control" id="jobLocation">
                     </div>
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Remote Work</label>
@@ -146,7 +146,7 @@
 
                   <div class="mb-3">
                     <label class="form-label">Job Description *</label>
-                    <textarea class="form-control" id="jobDescription" rows="6" required placeholder="Describe the role, responsibilities, and requirements..."></textarea>
+                    <textarea class="form-control" id="jobDescription" rows="6" placeholder="Describe the role, responsibilities, and requirements..."></textarea>
                   </div>
 
                   <div class="mb-3">
@@ -165,8 +165,8 @@
                   <h4 class="mb-4" style="color:#F03737;">Contact Information</h4>
                   <div class="row">
                     <div class="col-md-6 mb-3">
-                      <label class="form-label">Contact Email *</label>
-                      <input type="email" class="form-control" id="contactEmail" required>
+                      <label class="form-label">Contact Email</label>
+                      <input type="email" class="form-control" id="contactEmail">
                     </div>
                     <div class="col-md-6 mb-3">
                       <label class="form-label">Contact Phone</label>
@@ -222,6 +222,68 @@
   </div>
 
   <script src="js/bootstrap.bundle.js"></script>
-  <script src="js/validation.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Redirect to login if not a recruiter
+    document.addEventListener('DOMContentLoaded', async function () {
+      const res = await fetch('/api/auth/me', { credentials: 'include' });
+      if (!res.ok) return window.location.href = 'login.html?returnUrl=post-job.html';
+      const { user } = await res.json();
+      if (user.role !== 'recruiter') {
+        showNotification('Only recruiters can post jobs.', 'error');
+        setTimeout(() => window.location.href = 'index.html', 2000);
+        return;
+      }
+      // Pre-fill company name from profile
+      if (user.companyName) document.getElementById('companyName').value = user.companyName;
+    });
+
+    document.getElementById('jobPostForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const minSal = document.getElementById('minSalary').value;
+      const maxSal = document.getElementById('maxSalary').value;
+      const salary = minSal && maxSal ? `₹${Number(minSal).toLocaleString('en-IN')} - ₹${Number(maxSal).toLocaleString('en-IN')}` : (minSal || maxSal || '');
+
+      const payload = {
+        title:       document.getElementById('jobTitle').value.trim(),
+        company:     document.getElementById('companyName').value.trim(),
+        category:    document.getElementById('jobCategory').value,
+        type:        document.getElementById('employmentType').value,
+        experience:  document.getElementById('experienceLevel').value,
+        location:    document.getElementById('jobLocation').value.trim(),
+        workMode:    document.getElementById('remoteWork').value,
+        salary,
+        description: document.getElementById('jobDescription').value.trim(),
+        skills:      document.getElementById('requiredSkills').value.split(',').map(s => s.trim()).filter(Boolean),
+        lastDate:    document.getElementById('applicationDeadline').value || null,
+      };
+
+      if (!payload.title || !payload.company || !payload.category || !payload.type || !payload.location || !payload.description) {
+        return showNotification('Please fill in all required fields.', 'error');
+      }
+
+      const btn = this.querySelector('button[type="submit"]');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Posting...';
+
+      try {
+        const res = await fetch('/api/jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Failed to post job');
+        showNotification('Job posted successfully!', 'success');
+        setTimeout(() => window.location.href = 'dashboard.html', 1500);
+      } catch (err) {
+        showNotification(err.message, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-plus"></i> Post Job';
+      }
+    });
+  </script>
 </body>
 </html>
