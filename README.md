@@ -2,7 +2,7 @@
 
 A full-stack job portal connecting job seekers with recruiters. Built with Node.js, Express, MongoDB, and vanilla HTML/CSS/Bootstrap — no frontend framework required.
 
-🔗 **Live Demo**: [my-job-gator.onrender.com](https://my-job-gator.onrender.com) *(after deployment)*
+🔗 **Live Demo**: [my-job-gator.vercel.app](https://my-job-gator.vercel.app) *(after deployment)*
 
 ---
 
@@ -39,7 +39,7 @@ A full-stack job portal connecting job seekers with recruiters. Built with Node.
 | Backend | Node.js, Express.js |
 | Database | MongoDB, Mongoose |
 | Auth | express-session, bcryptjs, connect-mongo |
-| Deployment | Render |
+| Deployment | Vercel |
 
 ---
 
@@ -76,7 +76,7 @@ Job-Portal/
 ├── post-job.html
 ├── login.html
 ├── register.html
-├── render.yaml
+├── vercel.json
 └── README.md
 ```
 
@@ -133,15 +133,17 @@ NODE_ENV=production
 
 ---
 
-## Deploy to Render
+## Deploy to Vercel
 
 1. Push this repo to GitHub
-2. Go to [render.com](https://render.com) → New → Web Service
-3. Connect your GitHub repo
-4. Render auto-detects `render.yaml` — just set these env vars in the dashboard:
+2. Go to [vercel.com](https://vercel.com) → New Project → Import your GitHub repo
+3. Set these environment variables in the Vercel dashboard:
    - `MONGO_URI` → your MongoDB Atlas connection string
    - `SESSION_SECRET` → any long random string
-5. Click **Deploy**
+   - `NODE_ENV` → `production`
+4. Click **Deploy** — `vercel.json` handles all routing automatically
+
+> Make sure your MongoDB Atlas cluster allows connections from `0.0.0.0/0` (all IPs) since Vercel uses dynamic IPs.
 
 ---
 
