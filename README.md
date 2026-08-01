@@ -1,8 +1,6 @@
-# My Job Gator 🐊
+# Job Gator 🐊
 
 A full-stack job portal connecting job seekers with recruiters. Built with Node.js, Express, MongoDB, and vanilla HTML/CSS/Bootstrap — no frontend framework required.
-
-🔗 **Live Demo**: [my-job-gator.vercel.app](https://my-job-gator.vercel.app) *(after deployment)*
 
 ---
 
